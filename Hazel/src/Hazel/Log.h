@@ -1,6 +1,7 @@
 #pragma once
 #include "Core.h"
 #include <spdlog/spdlog.h>
+#include "spdlog/fmt/ostr.h"
 #include <memory>
 
 // __VA_ARGS__ 是预处理器提供的特殊宏，在编译时会被展开为相应的参数列表
