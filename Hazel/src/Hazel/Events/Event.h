@@ -37,8 +37,9 @@ namespace Hazel {
 
 	// base class
 	class HAZEL_API Event {
-		friend class EventDispatcher;
 	public:
+		bool Handled = false;
+
 		virtual EventType GetEventType() const = 0;     // 事件类别
 		virtual int GetCategoryFlags() const = 0;		// 所属事件组
 		virtual const char* GetName() const = 0;		// 事件名，调试用
@@ -47,8 +48,6 @@ namespace Hazel {
 		inline bool IsInCategory(EventCategory category) {
 			return GetCategoryFlags() & category;
 		}
-	protected:
-		bool m_Handled = false;
 	};
 
 	class EventDispatcher {
@@ -64,7 +63,7 @@ namespace Hazel {
 			if (m_Event.GetEventType() == T::GetStaticType()) {
 				// (T*)&m_Event：将 m_Event 的地址强制转换为类型 T* 的指针
 				// *(T*)&m_Event：将上述指针进行解引用，得到类型为 T 的对象
-				m_Event.m_Handled = func(*(T*)&m_Event);
+				m_Event.Handled = func(*(T*)&m_Event);
 				return true;
 			}
 			return false;
