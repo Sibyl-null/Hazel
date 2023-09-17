@@ -19,4 +19,32 @@ Hazel 是引擎核心代码（dll），Sandbox 是客户端（exe），Sandbox �
 ### 事件系统
 一个事件具有事件类型和其所属的事件组，例如键盘事件组包含按键按下和按键抬起两个事件类型。
 
-Event 为事件抽象类，由 EventDispatcher 类进行分发调用。
+**Event** 为事件抽象类，由 **EventDispatcher** 类进行调度。
+```
+CustomEvent e;    // 初始化事件
+EventDispatcher dispatcher(e);   // 创建事件调度器
+dispatcher.Dispath<CustomEvent>(OnCustomEvent);    // 进行事件调度
+
+// 具体调度逻辑
+bool OnCustomEvent(CustomEvent& event){
+   [...]
+}
+```
+
+### 引擎层级
+可根据引擎不同功能模块划分为不同层级，具体层级实现可由 Sandbox 自定义。
+
+**Layer** 是层级基类，具有以下生命周期函数：
+```
+virtual void OnAttach() {}             // 层级附加
+virtual void OnDetach() {}             // 层级分离
+virtual void OnUpdate() {}             // 层级更新
+virtual void OnEvent(Event& event) {}  // 层级事件响应
+```
+
+**LayerStack** 类是存储 Layer 的集合类，可以添加移除 Layer。内部使用 vector 实现。
+普通添加层级时，会置于最底层。使用 Overlay 添加层级时，会至于最顶层。
+
+Application 中持有 LayerStack 实例，处理各个层级的 Update 和 OnEvent。
+* Update 执行顺序：  底层 -> 顶层，全部执行。
+* OnEvent 执行顺序： 顶层 -> 底层。若某层成功处理事件，则中断传递。
