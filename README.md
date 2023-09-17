@@ -1,7 +1,4 @@
-# Hazel
-## 注意项
-* vs 运行程序前，修改 GLFW 工程配置。C/C++ -> 代码生成 -> 运行库：多线程(/MT)
-  
+# Hazel  
 ## 代码解析
 主要分为两个工程，Hazel 和 Sandbox。Sandbox 为启动项目。
 Hazel 是引擎核心代码（dll），Sandbox 是客户端（exe），Sandbox 依赖 Hazel。
