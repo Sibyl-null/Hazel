@@ -11,7 +11,7 @@ namespace Hazel {
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		AppTick, AppUpdate, AppRender,
-		KeyPressed, KeyReleased,
+		KeyPressed, KeyReleased, KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
@@ -59,7 +59,7 @@ namespace Hazel {
 			: m_Event(event){}
 
 		template<typename T>
-		bool Dispath(EventFn<T> func) {
+		bool Dispatch(EventFn<T> func) {
 			if (m_Event.GetEventType() == T::GetStaticType()) {
 				// (T*)&m_Event：将 m_Event 的地址强制转换为类型 T* 的指针
 				// *(T*)&m_Event：将上述指针进行解引用，得到类型为 T 的对象
