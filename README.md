@@ -45,3 +45,35 @@ virtual void OnEvent(Event& event) {}  // 层级事件响应
 Application 中持有 LayerStack 实例，处理各个层级的 Update 和 OnEvent。
 * Update 执行顺序：  底层 -> 顶层，全部执行。
 * OnEvent 执行顺序： 顶层 -> 底层。若某层成功处理事件，则中断传递。
+
+### 输入系统
+希望达到的一个效果是：在任意一个地方调用一个静态函数，询问某个按键是否按下抬起等。
+```
+// 使用示例
+if (Hazel::Input::IsKeyPressed(HZ_KEY_TAB)){
+   [...]
+}
+```
+
+1. 定义 KeyCodes 和 MouseButtonCodes。
+```
+#define HZ_KEY_0    48
+#define HZ_KEY_1    49
+#define HZ_KEY_2    50
+...
+```
+目前定义的按键值都是跟 glfw 一致的，如果需要在其他平台上生效或使用其他的库。需要一个转换函数或 KeyMap 之类的东西。
+
+2. Window 类在 Init 的时候进行输入事件的注册。
+例如 WindowsWindow 在 Init 的时候进行 glfw 事件的注册。
+```
+void WindowsWindow::Init(const WindowProps& props){
+   [...]
+   glfwSetKeyCallback(..., ...);
+   glfwSetMouseButtonCallback(..., ...)
+   [...]
+}
+```
+
+3. 定义 Input 单例抽象类，及其各个平台的 Input 具体实现。
+Input 基类里定义了鼠标键盘相关事件的抽象函数。其子类 WindowsInput 使用 glfw 相关函数获取输入信息实现抽象函数。
