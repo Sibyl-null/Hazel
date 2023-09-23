@@ -1,4 +1,9 @@
 # Hazel  
+## 注意项：
+Link Error：来自ImGui的符号没有从Hazel导出到 Sandbox。
+添加一个 defines 到 ImGui 的 premake 文件`defines {“IMGUI_API=__declspec（dllexport）”}`
+应该将符号从 ImGui 导出到 Hazel，这将导出所有 Hazel 和 ImGui 符号到 Sandbox。
+
 ## 代码解析
 主要分为两个工程，Hazel 和 Sandbox。Sandbox 为启动项目。
 Hazel 是引擎核心代码（dll），Sandbox 是客户端（exe），Sandbox 依赖 Hazel。
