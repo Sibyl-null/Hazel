@@ -3,6 +3,7 @@
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Input.h"
 #include "Hazel/Renderer/Renderer.h"
+#include <GLFW/glfw3.h>
 
 namespace Hazel {
 
@@ -29,8 +30,12 @@ namespace Hazel {
 	void Application::Run()
 	{
 		while (m_Running) {
+			float time = (float)glfwGetTime();
+			Timestep st = time - m_LastFrameTime;
+			m_LastFrameTime = time;
+
 			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(st);
 
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
