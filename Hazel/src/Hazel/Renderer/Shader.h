@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 
 namespace Hazel {
-	class Shader{
+	class HAZEL_API Shader{
 	public:
 		Shader(const std::string& vertexSrc, const std::string fragmentSrc);
 		~Shader();

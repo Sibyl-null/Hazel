@@ -2,7 +2,7 @@
 #include "Hazel/Renderer/RendererAPI.h"
 
 namespace Hazel {
-	class RenderCommand {
+	class HAZEL_API RenderCommand {
 	public:
 		inline static void SetClearColor(const glm::vec4& color){
 			s_RendererAPI->SetClearColor(color);
