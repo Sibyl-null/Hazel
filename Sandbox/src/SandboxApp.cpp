@@ -1,5 +1,6 @@
 #include <Hazel.h>
 #include "imgui/imgui.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 class ExampleLayer : public Hazel::Layer {
 public:
@@ -34,6 +35,7 @@ public:
 			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 			out vec4 v_Color;
@@ -42,7 +44,7 @@ public:
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
 			}
 		)";
 
@@ -87,7 +89,13 @@ public:
 
 		m_Camera.SetPosition(m_CameraPosition);
 		m_Camera.SetRotation(m_CameraRotation);
-		Hazel::Renderer::Submit(m_VertexArray, m_Shader);
+
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+		for (int x = 0; x < 10; ++x) {
+			glm::vec3 pos(x * 0.1 - 1.0f, 0.0f, 0.0f);
+			glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+			Hazel::Renderer::Submit(m_VertexArray, m_Shader, transform);
+		}
 
 		Hazel::Renderer::EndScene();
 	}
