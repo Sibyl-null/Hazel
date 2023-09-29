@@ -6,6 +6,8 @@
 namespace Hazel {
 	class HAZEL_API Renderer {
 	public:
+		static void Init();
+
 		static void BeginScene(OrthographicCamera& camera);
 		static void EndScene();
 		static void Submit(const Ref<VertexArray>& vertexArray, 
