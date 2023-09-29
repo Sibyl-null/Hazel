@@ -82,3 +82,8 @@ void WindowsWindow::Init(const WindowProps& props){
 
 3. 定义 Input 单例抽象类，及其各个平台的 Input 具体实现。
 Input 基类里定义了鼠标键盘相关事件的抽象函数。其子类 WindowsInput 使用 glfw 相关函数获取输入信息实现抽象函数。
+
+### 渲染架构
+RendererAPI 类提供不同图形库功能的抽象，例如：OpenGL、Vulkan。
+RenderCommand 类的作用就是间接调用 RendererAPI 的方法。
+Renderer 类负责开始、结束一个场景的渲染，和提交渲染数据（DrawCall）。
