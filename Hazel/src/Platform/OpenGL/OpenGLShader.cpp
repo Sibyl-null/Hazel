@@ -15,7 +15,8 @@ namespace Hazel {
 		return 0;
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string fragmentSrc)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string fragmentSrc)
+		: m_Name(name)
 	{
 		std::unordered_map<GLenum, std::string> shaderSources;
 		shaderSources[GL_VERTEX_SHADER] = vertexSrc;
@@ -28,6 +29,16 @@ namespace Hazel {
 		std::string source = ReadFile(filePath);
 		std::unordered_map<GLenum, std::string> shaderSources = PreProcess(source);
 		Compile(shaderSources);
+
+		// assets/shaders/Texture.glsl  ->  Texture
+		size_t lastSlash = filePath.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+
+		size_t lastDot = filePath.rfind('.');
+		lastDot = lastDot == std::string::npos ? filePath.size() : lastDot;
+
+		size_t count = lastDot - lastSlash;
+		m_Name = filePath.substr(lastSlash, count);
 	}
 
 	OpenGLShader::~OpenGLShader()
