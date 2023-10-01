@@ -38,7 +38,7 @@ namespace Hazel {
 	std::string OpenGLShader::ReadFile(const std::string& filePath)
 	{
 		std::string result;
-		std::ifstream in(filePath, std::ios::in, std::ios::binary);
+		std::ifstream in(filePath, std::ios::in | std::ios::binary);
 		
 		if (in) {
 			// 将读取指针移动到末尾，设定 result 的大小
@@ -85,7 +85,10 @@ namespace Hazel {
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
 		m_RendererID = glCreateProgram();
-		std::vector<GLenum> glShaderIDs(shaderSources.size());
+		HZ_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
+
+		std::array<GLenum, 2> glShaderIDs;
+		int glShaderIDIndex = 0;
 
 		for (auto& kv : shaderSources)
 		{
@@ -117,7 +120,7 @@ namespace Hazel {
 			}
 
 			glAttachShader(m_RendererID, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[glShaderIDIndex] = shader;
 		}
 
 		glLinkProgram(m_RendererID);
