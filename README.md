@@ -1,15 +1,14 @@
 # Hazel  
 ## 注意项：
-Link Error：来自ImGui的符号没有从Hazel导出到 Sandbox。
-添加一个 defines 到 ImGui 的 premake 文件`defines {“IMGUI_API=__declspec（dllexport）”}`
-应该将符号从 ImGui 导出到 Hazel，这将导出所有 Hazel 和 ImGui 符号到 Sandbox。
+暂无
 
 ## 代码解析
 主要分为两个工程，Hazel 和 Sandbox。Sandbox 为启动项目。
 Hazel 是引擎核心代码（dll），Sandbox 是客户端（exe），Sandbox 依赖 Hazel。
 
 ### EntryPoint
-程序入口的 main 方法作为 .h 文件包含在 Hazel 工程里，由 Sandbox 里的 .cpp 文件 include 进行调用。 
+程序入口的 main 方法作为 .h 文件包含在 Hazel 工程里，由 Sandbox 里的 .cpp 文件 #include <Hazel/Core/EntryPoint.h> 进行调用。 
+
 * Hazel 工程部分：
    * 定义 Application 基类，声明 CreateApplication 全局方法。
    * 在 EntryPoint.h 文件中定义 main 函数，使用外部定义的 CreateApplication 函数（extern）创建 Application 对象，运行引擎循环。
