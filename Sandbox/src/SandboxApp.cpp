@@ -1,5 +1,6 @@
 #include <Hazel.h>
 #include <Hazel/Core/EntryPoint.h>
+#include "Sandbox2D.h"
 
 #include "imgui/imgui.h"
 #include "Platform/OpenGL/OpenGLShader.h"
@@ -206,7 +207,8 @@ private:
 class Sandbox : public Hazel::Application {
 public:
 	Sandbox(){
-		PushLayer(new ExampleLayer());
+		// PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox(){}
