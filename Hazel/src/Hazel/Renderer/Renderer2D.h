@@ -1,4 +1,5 @@
 #pragma once
+#include "Texture.h"
 #include "Hazel/Renderer/OrthographicCamera.h"
 
 namespace Hazel {
@@ -13,5 +14,7 @@ namespace Hazel {
 		// Primitives
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
+		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture> texture);
+		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture> texture);
 	};
 }
