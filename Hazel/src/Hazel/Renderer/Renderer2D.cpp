@@ -1,8 +1,11 @@
 #include "hzpch.h"
 #include "Renderer2D.h"
+
 #include "Hazel/Renderer/RenderCommand.h"
 #include "Hazel/Renderer/Shader.h"
 #include "Hazel/Renderer/VertexArray.h"
+
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Hazel {
 	struct Renderer2DStorage {
@@ -49,7 +52,6 @@ namespace Hazel {
 	{
 		s_Data->FlatColorShader->Bind();
 		s_Data->FlatColorShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-		s_Data->FlatColorShader->SetMat4("u_Transform", glm::mat4(1.0f));
 	}
 
 	void Renderer2D::EndScene()
@@ -66,6 +68,10 @@ namespace Hazel {
 		s_Data->FlatColorShader->Bind();
 		s_Data->FlatColorShader->SetFloat4("u_Color", color);
 
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+			glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+		s_Data->FlatColorShader->SetMat4("u_Transform", transform);
+		
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
