@@ -12,28 +12,6 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-	float squareVertices[5 * 4] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.5f,  0.5f, 0.0f,
-		-0.5f,  0.5f, 0.0f
-	};
-	uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-
-	m_SquareVA = Hazel::VertexArray::Create();
-
-	Hazel::Ref<Hazel::VertexBuffer> squareVB;
-	squareVB = Hazel::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
-	squareVB->SetLayout({
-		{Hazel::ShaderDataType::Float3, "a_Position"},
-	});
-	m_SquareVA->AddVertexBuffer(squareVB);
-
-	Hazel::Ref<Hazel::IndexBuffer> squareIB;
-	squareIB = Hazel::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
-	m_SquareVA->SetIndexBuffer(squareIB);
-
-	m_FlatColorShader = Hazel::Shader::Create("assets/shaders/FlatColor.glsl");
 }
 
 void Sandbox2D::OnDetach()
@@ -49,15 +27,9 @@ void Sandbox2D::OnUpdate(Hazel::Timestep st)
 	Hazel::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 	Hazel::RenderCommand::Clear();
 
-	Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
-
-	std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->Bind();
-	std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)
-		->UploadUniformFloat4("u_Color", m_SquareColor);
-
-	Hazel::Renderer::Submit(m_SquareVA, m_FlatColorShader, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-
-	Hazel::Renderer::EndScene();
+	Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
+	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, m_SquareColor);
+	Hazel::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnEvent(Hazel::Event& e)
