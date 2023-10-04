@@ -2,7 +2,6 @@
 #include "Hazel/Core/Core.h"
 #include "Hazel//Core/Window.h"
 #include "Hazel//Core/LayerStack.h"
-#include "Hazel/Core/Timestep.h"
 
 #include "Hazel/Events/Event.h"
 #include "Hazel/Events/ApplicationEvent.h"
@@ -10,7 +9,7 @@
 #include "Hazel/ImGui/ImGuiLayer.h"
 
 namespace Hazel {
-	class HAZEL_API Application{
+	class Application{
 	public:
 		Application();
 		virtual ~Application();

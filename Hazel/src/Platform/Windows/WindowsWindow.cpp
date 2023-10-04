@@ -8,41 +8,56 @@
 namespace Hazel {
 	static bool s_GLFWInitialized = false;
 
-	static void GLFWErrorCallback(int error, const char* description) {
+	static void GLFWErrorCallback(int error, const char* description)
+	{
 		HZ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Window* Window::Create(const WindowProps& props) {
+	Window* Window::Create(const WindowProps& props)
+	{
 		return new WindowsWindow(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		HZ_PROFILE_FUNCTION();
+		
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		HZ_PROFILE_FUNCTION();
+		
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		HZ_PROFILE_FUNCTION();
+		
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
 		HZ_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
-		if (s_GLFWInitialized == false) {
+		if (s_GLFWInitialized == false)
+		{
+			HZ_PROFILE_SCOPE("glfwInit");
+			
 			int success = glfwInit();
 			HZ_CORE_ASSERT(success, "Could not intialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height, 
-			m_Data.Title.c_str(), nullptr, nullptr);
+		{
+			HZ_PROFILE_SCOPE("glfwCreateWindow");
+			
+			m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height,
+				m_Data.Title.c_str(), nullptr, nullptr);
+		}
 		
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();
@@ -134,11 +149,15 @@ namespace Hazel {
 
 	void WindowsWindow::Shutdown()
 	{
+		HZ_PROFILE_FUNCTION();
+		
 		glfwDestroyWindow(m_Window);
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
+		HZ_PROFILE_FUNCTION();
+		
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
@@ -148,7 +167,9 @@ namespace Hazel {
 		// glfwSwapInterval 用于设置垂直同步的交换间隔。
 		// 值为 0 将禁用垂直同步，glfwSwapBuffers 调用会立即返回。
 		// 值大于 0，glfwSwapBuffers 调用将会在等待恰好 x 个垂直同步信号之后再返回.
-
+		
+		HZ_PROFILE_FUNCTION();
+		
 		if (enabled)
 			glfwSwapInterval(1);
 		else
