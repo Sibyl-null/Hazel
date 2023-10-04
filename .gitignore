@@ -7,3 +7,6 @@ bin-int/
 *.user
 Sandbox/imgui.ini
 .idea
+Sandbox/HazelProfile-Runtime.json
+Sandbox/HazelProfile-Shutdown.json
+Sandbox/HazelProfile-Startup.json
