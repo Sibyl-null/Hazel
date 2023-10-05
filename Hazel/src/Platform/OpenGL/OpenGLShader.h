@@ -6,18 +6,19 @@
 typedef unsigned int GLenum;
 
 namespace Hazel {
-	class HAZEL_API OpenGLShader : public Shader
+	class OpenGLShader : public Shader
 	{
 	public:
 		OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string fragmentSrc);
 		OpenGLShader(const std::string& filePath);
-		virtual ~OpenGLShader();
+		~OpenGLShader() override;
 
 		void Bind() const override;
 		void UnBind() const override;
 		const std::string& GetName() const override { return m_Name; }
 
 		void SetInt(const std::string& name, int value) override;
+		void SetFloat(const std::string& name, float value) override;
 		void SetFloat3(const std::string& name, const glm::vec3& value) override;
 		void SetFloat4(const std::string& name, const glm::vec4& value) override;
 		void SetMat4(const std::string& name, const glm::mat4& value) override;
