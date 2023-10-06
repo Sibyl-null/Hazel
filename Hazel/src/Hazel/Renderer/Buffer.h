@@ -1,7 +1,7 @@
 #pragma once
 
 namespace Hazel {
-	enum class HAZEL_API ShaderDataType
+	enum class ShaderDataType
 	{
 		None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, 
 		Int, Int2, Int3, Int4, Bool
@@ -27,14 +27,14 @@ namespace Hazel {
 		return 0;
 	}
 
-	struct HAZEL_API BufferElement {
+	struct BufferElement {
 		std::string Name;
 		ShaderDataType Type;
 		uint32_t Size;
 		uint32_t Offset;
 		bool Normalized;
 
-		BufferElement() {}
+		BufferElement() = default;
 		BufferElement(ShaderDataType type, std::string name, bool normalized = false)
 			: Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized)
 		{}
@@ -61,9 +61,9 @@ namespace Hazel {
 		}
 	};
 
-	class HAZEL_API BufferLayout {
+	class BufferLayout {
 	public:
-		BufferLayout(){}
+		BufferLayout() = default;
 		BufferLayout(const std::initializer_list<BufferElement>& elements)
 			: m_Elements(elements) {
 			CalculateOffsetsAndStride();
@@ -91,22 +91,25 @@ namespace Hazel {
 		uint32_t m_Stride = 0;
 	};
 
-	class HAZEL_API VertexBuffer {
+	class VertexBuffer {
 	public:
-		virtual ~VertexBuffer() {}
+		virtual ~VertexBuffer() = default;
 
 		virtual void Bind() const = 0;
 		virtual void UnBind() const = 0;
 
+		virtual void SetData(const void* data, uint32_t size) = 0;
+		
 		virtual const BufferLayout& GetLayout() const = 0;
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 
+		static Ref<VertexBuffer> Create(uint32_t size);
 		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
 	};
 
-	class HAZEL_API IndexBuffer {
+	class IndexBuffer {
 	public:
-		virtual ~IndexBuffer() {}
+		virtual ~IndexBuffer() = default;
 
 		virtual void Bind() const = 0;
 		virtual void UnBind() const = 0;
