@@ -19,9 +19,9 @@ namespace Hazel {
 	
 	struct Renderer2DData
 	{
-		const uint32_t MaxQuads = 10000;
-		const uint32_t MaxVertices = MaxQuads * 4;
-		const uint32_t MaxIndices = MaxQuads * 6;
+		static constexpr uint32_t MaxQuads = 10000;
+		static constexpr uint32_t MaxVertices = MaxQuads * 4;
+		static constexpr uint32_t MaxIndices = MaxQuads * 6;
 		static constexpr uint32_t MaxTextureSlots = 32;	 // TODO: RenderCaps
 		
 		Ref<VertexArray> QuadVertexArray;
@@ -132,6 +132,17 @@ namespace Hazel {
 		RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
 	}
 
+	void Renderer2D::FlushAndReset()
+	{
+		HZ_PROFILE_FUNCTION();
+		
+		EndScene();
+
+		s_Data.QuadIndexCount = 0;
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+		s_Data.TextureSlotIndex = 1;
+	}
+
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		DrawQuad({ position.x, position.y, 0.0f }, size, color);
@@ -140,6 +151,9 @@ namespace Hazel {
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		HZ_PROFILE_FUNCTION();
+
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
+			FlushAndReset();
 
 		constexpr float texIndex = 0.0f;	// White Texture
 		constexpr float tilingFactor = 1.0f;
@@ -188,6 +202,9 @@ namespace Hazel {
 		float tilingFactor, const glm::vec4& tintColor)
 	{
 		HZ_PROFILE_FUNCTION();
+
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
+			FlushAndReset();
 
 		float texIndex = 0.0f;
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; ++i)
@@ -252,6 +269,9 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
+			FlushAndReset();
+
 		constexpr float texIndex = 0.0f;	// White Texture
 		constexpr float tilingFactor = 1.0f;
 
@@ -300,6 +320,9 @@ namespace Hazel {
 		const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
 		HZ_PROFILE_FUNCTION();
+
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
+			FlushAndReset();
 
 		float texIndex = 0.0f;
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; ++i)
