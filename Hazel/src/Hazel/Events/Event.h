@@ -1,6 +1,6 @@
 #pragma once
 #include "hzpch.h"
-#include "Hazel/Core/Core.h"
+#include "..\Core\Base.h"
 
 namespace Hazel {
 	// 当前事件是阻塞的，这意味着当一个事件发生时立即被分派，必须立即处理。

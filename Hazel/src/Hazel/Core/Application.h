@@ -1,5 +1,5 @@
 #pragma once
-#include "Hazel/Core/Core.h"
+#include "Base.h"
 #include "Hazel//Core/Window.h"
 #include "Hazel//Core/LayerStack.h"
 
