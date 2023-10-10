@@ -10,3 +10,6 @@ Sandbox/imgui.ini
 Sandbox/HazelProfile-Runtime.json
 Sandbox/HazelProfile-Shutdown.json
 Sandbox/HazelProfile-Startup.json
+Hazel-Editor/HazelProfile-Runtime.json
+Hazel-Editor/HazelProfile-Shutdown.json
+Hazel-Editor/HazelProfile-Startup.json

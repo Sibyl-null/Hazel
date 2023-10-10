@@ -1,10 +1,10 @@
 #pragma once
 #include <Hazel.h>
 
-class Sandbox2D : public Hazel::Layer {
+class EditorLayer : public Hazel::Layer {
 public:
-	Sandbox2D();
-	~Sandbox2D() override = default;
+	EditorLayer();
+	~EditorLayer() override = default;
 
 	void OnAttach() override;
 	void OnDetach() override;
