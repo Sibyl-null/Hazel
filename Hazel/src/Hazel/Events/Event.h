@@ -1,6 +1,6 @@
 #pragma once
 #include "hzpch.h"
-#include "..\Core\Base.h"
+#include "Hazel/Core/Base.h"
 
 namespace Hazel {
 	// 当前事件是阻塞的，这意味着当一个事件发生时立即被分派，必须立即处理。
@@ -36,8 +36,11 @@ namespace Hazel {
 #define Event_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
 	// base class
-	class HAZEL_API Event {
+	class Event
+	{
 	public:
+		virtual ~Event() = default;
+		
 		bool Handled = false;
 
 		virtual EventType GetEventType() const = 0;     // 事件类别
@@ -45,12 +48,13 @@ namespace Hazel {
 		virtual const char* GetName() const = 0;		// 事件名，调试用
 		virtual std::string ToString() const { return GetName(); }
 
-		inline bool IsInCategory(EventCategory category) {
+		bool IsInCategory(EventCategory category) {
 			return GetCategoryFlags() & category;
 		}
 	};
 
-	class EventDispatcher {
+	class EventDispatcher
+	{
 		// 接受类型为 T& 的参数并返回 bool 值
 		template<typename T>
 		using EventFn = std::function<bool(T&)>;
