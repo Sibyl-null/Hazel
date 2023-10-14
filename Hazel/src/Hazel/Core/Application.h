@@ -22,6 +22,7 @@ namespace Hazel {
 
 		void Close();
 		Window& GetWindow() { return *m_Window; }
+		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 		
 		static Application& Get() { return *s_Instance; }
 	private:
