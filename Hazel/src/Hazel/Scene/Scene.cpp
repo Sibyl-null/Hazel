@@ -22,15 +22,12 @@ namespace Hazel
         {
             if (nsc.Instance == nullptr)
             {
-                nsc.InstantiateFunction();
+                nsc.Instance = nsc.InstantiateScript();
                 nsc.Instance->m_Entity = Entity{ entity, this };
-
-                if (nsc.OnCreateFunction)
-                    nsc.OnCreateFunction(nsc.Instance);
+                nsc.Instance->OnCreate();
             }
 
-            if (nsc.OnUpdateFunction)
-                nsc.OnUpdateFunction(nsc.Instance, ts);
+            nsc.Instance->OnUpdate(ts);
         });
         
         // Render 2D
@@ -41,7 +38,7 @@ namespace Hazel
             auto view = m_Registry.view<TransformComponent, CameraComponent>();
             for (const entt::entity entity : view)
             {
-                auto& [transform, camera] = m_Registry.get<TransformComponent, CameraComponent>(entity);
+                auto [transform, camera] = m_Registry.get<TransformComponent, CameraComponent>(entity);
                 if (camera.Primary == true)
                 {
                     mainCamera = &camera.Camera;
@@ -58,7 +55,7 @@ namespace Hazel
             auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
             for (const entt::entity entity : group)
             {
-                auto& [transform, spriteRenderer] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
+                auto [transform, spriteRenderer] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
                 Renderer2D::DrawQuad(transform, spriteRenderer.Color);
             }
 
