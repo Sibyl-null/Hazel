@@ -1,5 +1,6 @@
 #pragma once
 #include <Hazel.h>
+#include "panels/SceneHierarchyPanel.h"
 
 namespace Hazel
 {
@@ -27,5 +28,7 @@ namespace Hazel
 		Entity m_CameraEntity;
 		Entity m_SecondCameraEntity;
 		bool m_PrimaryCamera = true;
+
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};
 }
