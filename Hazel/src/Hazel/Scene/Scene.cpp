@@ -21,8 +21,8 @@ namespace Hazel
         glm::mat4* cameraTransform = nullptr;
 
         {
-            auto group = m_Registry.view<TransformComponent, CameraComponent>();
-            for (const entt::entity entity : group)
+            auto view = m_Registry.view<TransformComponent, CameraComponent>();
+            for (const entt::entity entity : view)
             {
                 auto& [transform, camera] = m_Registry.get<TransformComponent, CameraComponent>(entity);
                 if (camera.Primary == true)
@@ -46,6 +46,21 @@ namespace Hazel
             }
 
             Renderer2D::EndScene();
+        }
+    }
+
+    void Scene::OnViewportResize(uint32_t width, uint32_t height)
+    {
+        m_ViewportWidth = width;
+        m_ViewportHeight = height;
+
+        // Resize our non-FixedAspectRatio cameras
+        auto view = m_Registry.view<CameraComponent>();
+        for (const entt::entity entity : view)
+        {
+            auto& cameraComponent = m_Registry.get<CameraComponent>(entity);
+            if (cameraComponent.FixedAspectRatio == false)
+                cameraComponent.Camera.SetViewportSize(width, height);
         }
     }
 
