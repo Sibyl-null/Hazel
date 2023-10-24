@@ -32,7 +32,7 @@ namespace Hazel
         
         // Render 2D
         Camera* mainCamera = nullptr;
-        glm::mat4* cameraTransform = nullptr;
+        glm::mat4 cameraTransform;
 
         {
             auto view = m_Registry.view<TransformComponent, CameraComponent>();
@@ -42,7 +42,7 @@ namespace Hazel
                 if (camera.Primary == true)
                 {
                     mainCamera = &camera.Camera;
-                    cameraTransform = &transform.Transform;
+                    cameraTransform = transform.GetTransform();
                     break;
                 }
             }
@@ -50,13 +50,13 @@ namespace Hazel
 
         if (mainCamera != nullptr)
         {
-            Renderer2D::BeginScene(*mainCamera, *cameraTransform);
+            Renderer2D::BeginScene(*mainCamera, cameraTransform);
             
             auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
             for (const entt::entity entity : group)
             {
                 auto [transform, spriteRenderer] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
-                Renderer2D::DrawQuad(transform, spriteRenderer.Color);
+                Renderer2D::DrawQuad(transform.GetTransform(), spriteRenderer.Color);
             }
 
             Renderer2D::EndScene();
