@@ -3,7 +3,7 @@
 
 namespace Hazel {
 	// 2D 正交相机, 总是面向 z 轴
-	class HAZEL_API OrthographicCamera {
+	class OrthographicCamera {
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top);
 		void SetProjection(float left, float right, float bottom, float top);

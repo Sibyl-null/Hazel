@@ -2,7 +2,7 @@
 #include "Hazel/Renderer/RendererAPI.h"
 
 namespace Hazel {
-	class HAZEL_API RenderCommand {
+	class RenderCommand {
 	public:
 		inline static void Init() {
 			s_RendererAPI->Init();

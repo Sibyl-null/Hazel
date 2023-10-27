@@ -17,7 +17,7 @@
 #define HZ_FATAL(...)	::Hazel::Log::GetClientLogger()->fatal(__VA_ARGS__)
 
 namespace Hazel {
-	class HAZEL_API Log
+	class Log
 	{
 	private:
 		// 类内部声明静态变量表明属于整个类（未定义）

@@ -4,7 +4,7 @@
 #include "Hazel/Renderer/Shader.h"
 
 namespace Hazel {
-	class HAZEL_API Renderer {
+	class Renderer {
 	public:
 		static void Init();
 		static void OnWindowResize(uint32_t width, uint32_t height);

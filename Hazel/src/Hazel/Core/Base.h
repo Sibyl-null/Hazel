@@ -1,19 +1,20 @@
 #pragma once
 #include <memory>
+#include "Hazel/Core/PlatformDetection.h"
 
-#ifdef HZ_PLATFORM_WINDOWS
-#ifdef HZ_DYNAMIC_LINK
-	#ifdef HZ_BUILD_DLL
-		#define HAZEL_API __declspec(dllexport)
+#ifdef HZ_DEBUG
+	#if defined(HZ_PLATFORM_WINDOWS)
+		#define HZ_DEBUGBREAK() __debugbreak()
+	#elif defined(HZ_PLATFORM_LINUX)
+		#include <signal.h>
+		#define HZ_DEBUGBREAK() raise(SIGTRAP)
 	#else
-		#define HAZEL_API __declspec(dllimport)
-	#endif // HZ_BUILD_DLL
+		#error "Platform doesn't support debugbreak yet!"
+	#endif
+	#define HZ_ENABLE_ASSERTS
 #else
-	#define HAZEL_API
+	#define HZ_DEBUGBREAK()
 #endif
-#else
-	#error Hazel only supports Windows!
-#endif // HZ_PLATFORM_WINDOWS
 
 #ifdef HZ_ENABLE_ASSERTS
 	#define HZ_ASSERT(x, ...) { if(!(x)) { HZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak; } }
