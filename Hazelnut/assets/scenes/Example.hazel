@@ -2,22 +2,13 @@ Scene: Untitled
 Entities:
   - Entity: 451386
     TagComponent:
-      Tag: SphereTwo
+      Tag: Empty Entity
     TransformComponent:
-      Translation: [-4.4000001, 0, 0]
+      Translation: [-1.89999998, 2.0999999, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [0.289575279, 0.465138078, 1, 1]
-  - Entity: 451386
-    TagComponent:
-      Tag: Sphere
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
+      Color: [1, 0.997629285, 0.386100411, 1]
   - Entity: 451386
     TagComponent:
       Tag: Camera
@@ -36,3 +27,21 @@ Entities:
         OrthographicFar: 1
       Primary: true
       FixedAspectRatio: false
+  - Entity: 451386
+    TagComponent:
+      Tag: Sphere
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+  - Entity: 451386
+    TagComponent:
+      Tag: SphereTwo
+    TransformComponent:
+      Translation: [-4.4000001, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.289575279, 0.465138078, 1, 1]
