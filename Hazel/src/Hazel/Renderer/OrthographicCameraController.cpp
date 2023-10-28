@@ -1,7 +1,6 @@
 #include "hzpch.h"
 #include "OrthographicCameraController.h"
 #include "Hazel/Core/Input.h"
-#include "Hazel/Core/KeyCodes.h"
 
 namespace Hazel {
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
@@ -15,22 +14,22 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 		
-		if (Input::IsKeyPressed(HZ_KEY_A))
+		if (Input::IsKeyPressed(Key::A))
 			m_CameraPosition.x -= m_CameraTranslationSpeed * st;
-		else if (Input::IsKeyPressed(HZ_KEY_D))
+		else if (Input::IsKeyPressed(Key::D))
 			m_CameraPosition.x += m_CameraTranslationSpeed * st;
 
-		if (Input::IsKeyPressed(HZ_KEY_W))
+		if (Input::IsKeyPressed(Key::W))
 			m_CameraPosition.y += m_CameraTranslationSpeed * st;
-		else if (Input::IsKeyPressed(HZ_KEY_S))
+		else if (Input::IsKeyPressed(Key::S))
 			m_CameraPosition.y -= m_CameraTranslationSpeed * st;
 
 		m_Camera.SetPosition(m_CameraPosition);
 
 		if (m_Rotation) {
-			if (Input::IsKeyPressed(HZ_KEY_Q))
+			if (Input::IsKeyPressed(Key::Q))
 				m_CameraRotation += m_CameraRotationSpeed * st;
-			else if (Input::IsKeyPressed(HZ_KEY_E))
+			else if (Input::IsKeyPressed(Key::E))
 				m_CameraRotation -= m_CameraRotationSpeed * st;
 
 			m_Camera.SetRotation(m_CameraRotation);
