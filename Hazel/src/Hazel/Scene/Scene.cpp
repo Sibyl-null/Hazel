@@ -15,7 +15,21 @@ namespace Hazel
     {
     }
 
-    void Scene::OnUpdate(Timestep ts)
+    void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
+    {
+        Renderer2D::BeginScene(camera);
+            
+        auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+        for (const entt::entity entity : group)
+        {
+            auto [transform, spriteRenderer] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
+            Renderer2D::DrawQuad(transform.GetTransform(), spriteRenderer.Color);
+        }
+
+        Renderer2D::EndScene();
+    }
+
+    void Scene::OnUpdateRuntime(Timestep ts)
     {
         // Update Scripts
         m_Registry.view<NativeScriptComponent>().each([=](entt::entity entity, NativeScriptComponent& nsc)

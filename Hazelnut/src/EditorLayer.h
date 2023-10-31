@@ -2,6 +2,7 @@
 #include <Hazel.h>
 
 #include "Hazel/Events/KeyEvent.h"
+#include "Hazel/Renderer/EditorCamera.h"
 #include "panels/SceneHierarchyPanel.h"
 
 namespace Hazel
@@ -36,6 +37,7 @@ namespace Hazel
 		Entity m_CameraEntity;
 		Entity m_SecondCameraEntity;
 		bool m_PrimaryCamera = true;
+		EditorCamera m_EditorCamera;
 
 		int m_GizmosType = -1;
 
