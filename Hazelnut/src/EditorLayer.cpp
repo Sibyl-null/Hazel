@@ -21,6 +21,7 @@ namespace Hazel
 		FramebufferSpecification spec;
 		spec.Width = 1280;
 		spec.Height = 720;
+		spec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
 		m_Framebuffer = Framebuffer::Create(spec);
 
 		m_ActiveScene = CreateRef<Scene>();
