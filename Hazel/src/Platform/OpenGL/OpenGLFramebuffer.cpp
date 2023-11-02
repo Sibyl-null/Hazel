@@ -21,7 +21,7 @@ namespace Hazel
             glBindTexture(TextureTarget(multiSampled), id);
         }
 
-        static void AttachColorTexture(uint32_t id, int samples, GLenum format,
+        static void AttachColorTexture(uint32_t id, int samples, GLenum internalFormat, GLenum format,
             uint32_t width, uint32_t height, int index)
         {
             const bool multiSampled = samples > 1;
@@ -32,8 +32,8 @@ namespace Hazel
             }
             else
             {
-                glTexImage2D(GL_TEXTURE_2D, 0, format, width, height,
-                    0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+                glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height,
+                    0, format, GL_UNSIGNED_BYTE, nullptr);
 
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -132,7 +132,11 @@ namespace Hazel
                 {
                 case FramebufferTextureFormat::RGBA8:
                     Utils::AttachColorTexture(m_ColorAttachments[i], m_Spec.Samples,
-                        GL_RGBA8, m_Spec.Width, m_Spec.Height, i);
+                        GL_RGBA8, GL_RGB, m_Spec.Width, m_Spec.Height, i);
+                    break;
+                case FramebufferTextureFormat::RED_INTEGER:
+                    Utils::AttachColorTexture(m_ColorAttachments[i], m_Spec.Samples, GL_R32I, GL_RED_INTEGER,
+                        m_Spec.Width, m_Spec.Height, i);
                     break;
                 }
             }
@@ -187,5 +191,13 @@ namespace Hazel
         m_Spec.Height = height;
 
         Invalidate();
+    }
+
+    int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
+    {
+        glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
+        int pixelData;
+        glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
+        return pixelData;
     }
 }

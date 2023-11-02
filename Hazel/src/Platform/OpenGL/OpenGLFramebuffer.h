@@ -7,7 +7,7 @@ namespace Hazel
     {
     public:
         OpenGLFramebuffer(const FramebufferSpecification& spec);
-        virtual ~OpenGLFramebuffer();
+        ~OpenGLFramebuffer() override;
 
         void Invalidate();
         
@@ -15,6 +15,7 @@ namespace Hazel
         void UnBind() const override;
 
         void Resize(uint32_t width, uint32_t height) override;
+        int ReadPixel(uint32_t attachmentIndex, int x, int y) override;
         
         uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override { return m_ColorAttachments[index]; }
         const FramebufferSpecification& GetSpecification() const override { return m_Spec; }
