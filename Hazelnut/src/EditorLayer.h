@@ -41,6 +41,7 @@ namespace Hazel
 		EditorCamera m_EditorCamera;
 
 		int m_GizmosType = -1;
+		Entity m_HoveredEntity;
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};

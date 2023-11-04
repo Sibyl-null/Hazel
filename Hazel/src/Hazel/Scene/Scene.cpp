@@ -23,7 +23,7 @@ namespace Hazel
         for (const entt::entity entity : group)
         {
             auto [transform, spriteRenderer] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
-            Renderer2D::DrawQuad(transform.GetTransform(), spriteRenderer.Color);
+            Renderer2D::DrawSprite(transform.GetTransform(), spriteRenderer, static_cast<int>(entity));
         }
 
         Renderer2D::EndScene();
@@ -70,7 +70,7 @@ namespace Hazel
             for (const entt::entity entity : group)
             {
                 auto [transform, spriteRenderer] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
-                Renderer2D::DrawQuad(transform.GetTransform(), spriteRenderer.Color);
+                Renderer2D::DrawSprite(transform.GetTransform(), spriteRenderer, static_cast<int>(entity));
             }
 
             Renderer2D::EndScene();
